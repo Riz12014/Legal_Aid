@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawyer Dashboard - Legal Aid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .dashboard-card {
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .dashboard-card h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .dashboard-card p {
+            font-size: 16px;
+            color: #555;
+        }
+        .btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-link {
+            text-align: right;
+            padding: 10px 20px;
+        }
+        .logout-link a {
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .logout-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, {{ full_name }} - Lawyer Dashboard</h1>
+    </div>
+
+    <div class="logout-link">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="content">
+
+
+
+
+            <div class="dashboard-card">
+                <h2>See Posted Cases</h2>
+                <p> See the cases posted by the customers</p>
+                <a href="{{ url_for('pending') }}" class="btn">View Cases</a>
+            </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

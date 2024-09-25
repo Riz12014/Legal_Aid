@@ -1,0 +1,35 @@
+Feature - 01
+a. Users can log in to website using email and password #(Riz)
+
+Feature - 02
+a. New users and lawyer can register using different forms #(Riz)
+
+Feature - 03
+a. Users can enable 2 step verification. OTP will be sent via email #Akash 
+
+Feature - 04
+a. Users can generate password reset using email by clicking on the link provided in the email #(Riz)
+
+Feature - 05 - (Riz)
+a. User can see the advocate advocate list # Riz
+
+Feature - 06
+a. Users can see the laws about specific problems 
+#Anindita, #Anisha
+
+Feature - 07 #Anindita
+a. User can make a favorite list 
+
+Feature - 08
+a. Customer can post his/her case to the website and it will be visible to all the advocates #Anisha
+
+Feature - 09
+a. User can rate the advocate #Anisha
+
+
+Feature - 11 #Admin dashboard #Anindita 
+a. Admin can see the customer list and advocate list 
+
+Fea
+
+Google APP PASS: qkmt eqqb fvvy oijr

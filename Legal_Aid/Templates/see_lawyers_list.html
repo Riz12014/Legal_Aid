@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawyers List - Legal Aid</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid #0056b3;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .lawyer-card {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .lawyer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .lawyer-card h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .lawyer-info {
+            margin-bottom: 10px;
+        }
+
+        .lawyer-info strong {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .action-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .favorite-button,
+        .rate-button {
+            padding: 8px 16px;
+            background-color: #e81d71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        .favorite-button:hover,
+        .rate-button:hover {
+            background-color: #0054ae;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 5px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Lawyers List</h1>
+    </div>
+
+    <div class="container">
+        {% if lawyers %}
+            {% for lawyer in lawyers %}
+                <div class="lawyer-card">
+                    <h2>{{ lawyer.FullName }}</h2>
+                    <div class="lawyer-info"><strong>Email:</strong> {{ lawyer.Email }}</div>
+                    <div class="lawyer-info"><strong>Specialized Field:</strong> {{ lawyer.SpecializedFeilds }}</div>
+                    <div class="lawyer-info"><strong>Consultation Fee:</strong> {{ lawyer.ConsultationFee }}</div>
+                    <div class="lawyer-info"><strong>Bar Number:</strong> {{ lawyer.BarNumber }}</div>
+                    <div class="lawyer-info"><strong>Office Address:</strong> {{ lawyer.OfficeAddress }}</div>
+                    <div class="lawyer-info"><strong>Contact Number:</strong> {{ lawyer.ContactNo }}</div>
+
+                    <div class="action-buttons">
+                        <button class="favorite-button" data-bar-number="{{ lawyer.BarNumber }}">Add to favorite</button>
+                        <button class="rate-button" data-bar-number="{{ lawyer.BarNumber }}">Rate Lawyer</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div>No lawyers found.</div>
+        {% endif %}
+    </div>
+
+    <!-- Modal -->
+    <div id="favoriteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add to Favorites</h2>
+            <form id="favoriteForm">
+                <div class="form-group">
+                    <label for="customer_name">Enter Name:</label>
+                    <input type="text" id="customer_name" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer_barNo">Lawyer Bar No:</label>
+                    <input type="number" id="lawyer_barNo" name="lawyer_barNo" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rate Lawyer Modal -->
+    <div id="rateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Rate Lawyer</h2>
+            <form id="rateForm">
+                <div class="form-group">
+                    <label for="customer_name">Enter Name:</label>
+                    <input type="text" id="customer_name" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer_barNo">Lawyer Bar No:</label>
+                    <input type="number" id="lawyer_barNo" name="lawyer_barNo" required>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select a rating</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review">Review:</label>
+                    <textarea id="review" name="review" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function addToFavorite(lawyer_barNo) {
+            window.location.href = '/favorite_lawyer/' + lawyer_barNo;
+        }
+
+        function rateLawyer(lawyer_barNo) {
+            window.location.href = '/rate_lawyer/' + lawyer_barNo;
+        }
+
+        // Get the favorite modal
+        var favoriteModal = document.getElementById("favoriteModal");
+
+        // Get the <span> element that closes the favorite modal
+        var favoriteSpan = favoriteModal.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the favorite modal
+        favoriteSpan.onclick = function() {
+            favoriteModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the favorite modal, close it
+        window.onclick = function(event) {
+            if (event.target == favoriteModal) {
+                favoriteModal.style.display = "none";
+            }
+        }
+
+        // Function to open favorite modal
+        function openFavoriteModal() {
+            favoriteModal.style.display = "block";
+        }
+
+        // Add event listeners to all "Add to favorite" buttons
+        document.querySelectorAll('.favorite-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openFavoriteModal();
+            });
+        });
+
+        // Handle favorite form submission
+        document.getElementById("favoriteForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var customer_name = document.getElementById("customer_name").value;
+            var lawyer_barNo = document.getElementById("lawyer_barNo").value;
+            
+            // Here you would typically send this data to your server
+            // For now, we'll just log it and close the modal
+            console.log("Customer Name:", customer_name, "Lawyer Bar No:", lawyer_barNo);
+            favoriteModal.style.display = "none";
+            
+            // Reset the form
+            this.reset();
+        });
+
+        // Get the rate modal
+        var rateModal = document.getElementById("rateModal");
+
+        // Get the <span> element that closes the rate modal
+        var rateSpan = rateModal.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the rate modal
+        rateSpan.onclick = function() {
+            rateModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the rate modal, close it
+        window.onclick = function(event) {
+            if (event.target == rateModal) {
+                rateModal.style.display = "none";
+            }
+        }
+
+        // Function to open rate modal
+        function openRateModal() {
+            rateModal.style.display = "block";
+        }
+
+        // Add event listeners to all "Rate Lawyer" buttons
+        document.querySelectorAll('.rate-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openRateModal();
+            });
+        });
+
+        // Handle rate form submission
+        document.getElementById("rateForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var customer_name = document.getElementById("customer_name").value;
+            var lawyer_barNo = document.getElementById("lawyer_barNo").value;
+            var rating = document.getElementById("rating").value;
+            var review = document.getElementById("review").value;
+            
+            // Here you would typically send this data to your server
+            // For now, we'll just log it and close the modal
+            console.log("Rater Name:", customer_name, "Lawyer Bar No:", lawyer_barNo, "Rating:", rating, "Review:", review);
+            rateModal.style.display = "none";
+            
+            // Reset the form
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>

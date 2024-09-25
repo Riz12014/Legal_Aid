@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Schedule</title>
+</head>
+<body>
+    <h1>Upcoming Consultations</h1>
+    {% if schedule %}
+    <table>
+        <tr>
+            <th>Client Name</th>
+            <th>Consultation Date</th>
+            <th>Time</th>
+        </tr>
+        {% for consultation in schedule %}
+        <tr>
+            <td>{{ consultation.ClientName }}</td>
+            <td>{{ consultation.Date }}</td>
+            <td>{{ consultation.Time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No consultations scheduled.</p>
+    {% endif %}
+</body>
+</html>

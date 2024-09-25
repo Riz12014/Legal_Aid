@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Your Case - Legal Aid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f4f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50; /* Dark blue */
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+        button {
+            background-color: #27ae60; /* Green */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1e8449;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .toolbar button {
+            background-color: #2c3e50; /* Dark blue */
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .toolbar button:hover {
+            background-color: #1a242f;
+        }
+    </style>
+    <script>
+        function applyStyle(command, value = null) {
+            document.execCommand(command, false, value);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Post Your Case</h1>
+        <form action="{{ url_for('post_my_case') }}" method="POST">
+            <label for="title">Title of Case Listing*</label>
+            <input type="text" name="Title" id="title" required>
+
+            <label for="brief_description">Brief Description*</label>
+            <div class="toolbar">
+                <button type="button" onclick="applyStyle('bold')"><b>B</b></button>
+                <button type="button" onclick="applyStyle('italic')"><i>I</i></button>
+                <button type="button" onclick="applyStyle('underline')"><u>U</u></button>
+                <button type="button" onclick="applyStyle('strikeThrough')"> S </button>
+                <button type="button" onclick="applyStyle('justifyLeft')">&#8676;</button>
+                <button type="button" onclick="applyStyle('justifyCenter')">&#8596;</button>
+                <button type="button" onclick="applyStyle('justifyRight')">&#8677;</button>
+                <button type="button" onclick="applyStyle('removeFormat')"><i>T</i><sub>x</sub></button>
+            </div>
+            <div contenteditable="true" id="brief_description" style="border: 1px solid #ccc; padding: 12px; border-radius: 5px; min-height: 120px;"></div>
+            <input type="hidden" name="Brief_Description" id="hidden_brief_description">
+
+            <label for="category">Pick a Category*</label>
+            <select name="Category" id="category" required>
+                <option value="criminal">Criminal Law</option>
+                <option value="family">Family Law</option>
+                <option value="civil">Civil Law</option>
+                <option value="business">Business & Corporate Law</option>
+                <option value="labor">Labor & Employment Law</option>
+                <option value="land">Land Law</option>
+                <option value="tax">Taxation Law</option>
+                <option value="constitutional">Constitutional Law</option>
+                <option value="immigration">Immigration Law</option>
+                <option value="cyber">Cyber Law</option>
+                <option value="others">Others</option>
+            </select>
+
+            <label for="subcategory">Sub Category*</label>
+            <select name="Subcategory" id="subcategory" required>
+                
+                <optgroup label="Criminal Law">
+                    <option value="murder">Murder</option>
+                    <option value="theft">Theft</option>
+                    <option value="domestic_violence">Domestic Violence</option>
+                    <option value="fraud">Fraud</option>
+                    <option value="drug_offense">Drug Offense</option>
+                </optgroup>
+
+                
+                <optgroup label="Family Law">
+                    <option value="divorce">Divorce</option>
+                    <option value="child_custody">Child Custody</option>
+                    <option value="inheritance">Inheritance</option>
+                    <option value="dowry">Dowry Cases</option>
+                </optgroup>
+
+                
+                <optgroup label="Civil Law">
+                    <option value="contract_disputes">Contract Disputes</option>
+                    <option value="property_disputes">Property Disputes</option>
+                    <option value="consumer_protection">Consumer Protection</option>
+                </optgroup>
+
+                
+                <optgroup label="Land Law">
+                    <option value="property_registration">Property Registration</option>
+                    <option value="eviction">Eviction</option>
+                    <option value="land_disputes">Land Disputes</option>
+                </optgroup>
+
+                
+                <optgroup label="Business & Corporate Law">
+                    <option value="company_registration">Company Registration</option>
+                    <option value="compliance">Compliance Issues</option>
+                    <option value="tax_disputes">Tax Disputes</option>
+                </optgroup>
+
+                
+                <optgroup label="Labor & Employment Law">
+                    <option value="termination">Termination Disputes</option>
+                    <option value="wage_disputes">Wage Disputes</option>
+                    <option value="worker_safety">Worker Safety</option>
+                </optgroup>
+
+                
+                <optgroup label="Cyber Law">
+                    <option value="online_fraud">Online Fraud</option>
+                    <option value="cyber_bullying">Cyber Bullying</option>
+                    <option value="privacy_violations">Privacy Violations</option>
+                </optgroup>
+
+                
+                <optgroup label="Others">
+                    <option value="miscellaneous">Miscellaneous</option>
+                    <option value="unspecified">Unspecified</option>
+                </optgroup>
+            </select>
+
+            <label for="city">City*</label>
+            <input type="text" name="City" id="city" required>
+
+            <label for="full_description">Full Description*</label>
+            <div class="toolbar">
+                <button type="button" onclick="applyStyle('bold')"><b>B</b></button>
+                <button type="button" onclick="applyStyle('italic')"><i>I</i></button>
+                <button type="button" onclick="applyStyle('underline')"><u>U</u></button>
+                <button type="button" onclick="applyStyle('strikeThrough')"> S </button>
+                <button type="button" onclick="applyStyle('justifyLeft')">&#8676;</button>
+                <button type="button" onclick="applyStyle('justifyCenter')">&#8596;</button>
+                <button type="button" onclick="applyStyle('justifyRight')">&#8677;</button>
+                <button type="button" onclick="applyStyle('removeFormat')"><i>T</i><sub>x</sub></button>
+            </div>
+            <div contenteditable="true" id="full_description" style="border: 1px solid #ccc; padding: 12px; border-radius: 5px; min-height: 150px;"></div>
+            <input type="hidden" name="Full_Description" id="hidden_full_description">
+
+            <button type="submit">Submit Now</button>
+        </form>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('hidden_brief_description').value = document.getElementById('brief_description').innerHTML;
+            document.getElementById('hidden_full_description').value = document.getElementById('full_description').innerHTML;
+        });
+    </script>
+</body>
+</html>

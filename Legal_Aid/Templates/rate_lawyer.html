@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Lawyer</title>
+</head>
+<body>
+    <h1>Rate Lawyer</h1>
+    <form method="POST">
+        <label for="FullName">Your Name:</label>
+        <input type="text" id="FullName" name="FullName" required><br><br>
+        
+        <label for="Rating">Rating (1-5):</label>
+        <input type="number" id="Rating" name="Rating" min="1" max="5" required><br><br>
+        
+        <label for="Review">Review:</label><br>
+        <textarea id="Review" name="Review" rows="4" cols="50" required></textarea><br><br>
+        
+        <input type="submit" value="Submit Rating">
+    </form>
+</body>
+</html>

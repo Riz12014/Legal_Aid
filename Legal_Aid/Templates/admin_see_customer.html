@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>customers List - Legal Aid</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+
+            padding: 0;
+            color: #333;
+
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #007bff;
+
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid #0056b3;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        .customer-card {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+
+            margin: 20px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+
+        }
+        .customer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .customer-card h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+
+            font-size: 24px;
+        }
+
+        .customer-info {
+            margin-bottom: 10px;
+        }
+        .customer-info strong {
+
+            font-weight: bold;
+            color: #555;
+
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="header">
+        <h1>Customer List</h1>
+
+    </div>
+
+    <div class="container">
+        {% if customers %}
+            {% for customer in customers %}
+                <div class="customer-card">
+                    <h2>{{ customer.FullName }}</h2>
+                    <div class="customer-info"><strong>Email:</strong> {{ customer.Email }}</div>
+                    <div class="customer-info"><strong>National ID:</strong> {{ customer.NationalID }}</div>
+                    <div class="customer-info"><strong>Location:</strong> {{ customer.AddressArea }}</div>
+                    <div class="customer-info"><strong>Contact Number:</strong> {{ customer.ContactNo }}</div>
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <div>No customers found.</div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
